@@ -1,0 +1,21 @@
+{
+  "name": "naruto-dolar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "node-schedule": "^2.0.0",
+    "puppeteer": "^8.0.0",
+    "request": "^2.88.2",
+    "twit": "^2.2.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "h": "node bot.js h",
+    "n": "node bot.js n",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
