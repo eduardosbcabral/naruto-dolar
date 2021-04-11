@@ -22,10 +22,31 @@ formatReturnedObject = (json_object) => {
   return {
     value: value_to_BRL,
     value_formatted: value_without_dot,
-    higher: parseInt(pctChange) >= 0
+    status: getDolarStatus(pctChange)
   };
 }
 
+getDolarStatus = (pctChange) => {
+  if(pctChange > 0) {
+    return dolar_status.higher.value;
+  }
+
+  if(pctChange < 0) {
+    return dolar_status.lower.value;
+  }
+
+  if(pctChange === 0) {
+    return dolar_status.same.value;
+  }
+}
+
+const dolar_status = {
+  higher: { value: 0 },
+  lower: { value: 1 },
+  same: { value: 2 }
+};
+
 module.exports = {
-  getCurrentDolar
+  getCurrentDolar,
+  dolar_status
 };

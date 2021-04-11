@@ -1,12 +1,12 @@
 const schedule = require('node-schedule');
 const { getChapterTitle, getFile } = require('./helpers');
-const { getCurrentDolar } = require('./dolar');
+const { getCurrentDolar, dolar_status } = require('./dolar');
 const MyTwit = require('./twit');
 const T = new MyTwit();
 
 postTweet = async () => {
 
-  const { value, value_formatted, higher } = await getCurrentDolar();
+  const { value, value_formatted, status } = await getCurrentDolar();
 
   const b64_content = getFile(value_formatted);
 
@@ -27,7 +27,7 @@ postTweet = async () => {
     await T.createMediaMetadata(meta_params);
 
     const message = `
-O dólar ${higher ? 'subiu' : 'caiu'} e está cotado a R$${value}!!! ${higher ? '😕' : '😀'}
+O dólar ${getDolarStatusMessage(status)} e está cotado a R$${value}!!! ${getDolarStatusEmoji(status)}
           
 Capítulo ${value_formatted}: ${getChapterTitle(value_formatted)}
 `;
@@ -38,6 +38,34 @@ Capítulo ${value_formatted}: ${getChapterTitle(value_formatted)}
 
   } catch (err) {
     console.log('An error has occured: ' + err);
+  }
+}
+
+getDolarStatusMessage = (status) => {
+  if(status === dolar_status.higher.value) {
+    return 'subiu';
+  }
+
+  if(status === dolar_status.lower.value) {
+    return 'caiu';
+  }
+
+  if(status === dolar_status.same.value) {
+    return 'não variou';
+  }
+}
+
+getDolarStatusEmoji = (status) => {
+  if(status === dolar_status.higher.value) {
+    return '😥';
+  }
+
+  if(status === dolar_status.lower.value) {
+    return '😀';
+  }
+
+  if(status === dolar_status.same.value) {
+    return '😐';
   }
 }
 
