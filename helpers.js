@@ -1,8 +1,8 @@
 const fs = require('fs');
-const chapters_name_list = require(appRoot + '/files/naruto_mangas.json');
+const chapters_name_list = require(global.appRoot + '/files/naruto_mangas.json');
 
 getFile = (value_formatted) => {
-  return fs.readFileSync(appRoot + `/files/covers/${value_formatted}.${getFileExtension(value_formatted)}`, { encoding: 'base64' });
+  return fs.readFileSync(global.appRoot + `/files/covers/${value_formatted}.${getFileExtension(value_formatted)}`, { encoding: 'base64' });
 }
 
 getChapterTitle = (chapter) => {

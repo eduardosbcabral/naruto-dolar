@@ -4,7 +4,7 @@ const request = require('request');
 
 const chapter_list_page_url = 'https://unionmangas.top/perfil-manga/naruto';
 
-const cover_folder = appRoot + '/files/covers/';
+const cover_folder = global.appRoot + '/files/covers/';
 
 const beginAt = '700';
 
