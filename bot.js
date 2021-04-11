@@ -70,6 +70,8 @@ getDolarStatusEmoji = (status) => {
 }
 
 main = () => {
+  console.log('Bot is running!');
+  
   if(process.argv.find(x => x === 'h')) {
     schedule.scheduleJob('0 9-17 * * 1-5', async () => {
       await postTweet();
