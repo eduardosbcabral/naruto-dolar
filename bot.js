@@ -79,14 +79,8 @@ main = () => {
   }
   
   if(process.argv.find(x => x === 'now')) {
-    (async () => {
-      try {
-        await postTweet();
-        process.exit();
-      } catch (err) {
-        console.log(err);
-      }
-    })();
+    postTweet()
+      .then(() => process.exit());
   }
 }
 
