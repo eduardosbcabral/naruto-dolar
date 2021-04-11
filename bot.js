@@ -1,6 +1,8 @@
 const schedule = require('node-schedule');
 const { getChapterTitle, getFile } = require('./helpers');
 const { getCurrentDolar, dolar_status } = require('./dolar');
+const path = require('path');
+global.appRoot = path.resolve(__dirname);
 const MyTwit = require('./twit');
 const T = new MyTwit();
 
