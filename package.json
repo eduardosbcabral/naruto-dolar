@@ -12,8 +12,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "h": "node bot.js h",
-    "n": "node bot.js n",
+    "h": "node bot.js default",
+    "n": "node bot.js now",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

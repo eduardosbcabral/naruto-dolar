@@ -71,17 +71,18 @@ getDolarStatusEmoji = (status) => {
 
 main = () => {
   console.log('Bot is running!');
-  
-  if(process.argv.find(x => x === 'h')) {
+
+  if(process.argv.find(x => x === 'default')) {
     schedule.scheduleJob('0 9-17 * * 1-5', async () => {
       await postTweet();
     });
   }
   
-  if(process.argv.find(x => x === 'n')) {
+  if(process.argv.find(x => x === 'now')) {
     (async () => {
       try {
         await postTweet();
+        process.exit();
       } catch (err) {
         console.log(err);
       }
