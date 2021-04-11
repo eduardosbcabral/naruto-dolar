@@ -1,15 +1,12 @@
-const fs = require('fs');
-const chapters_name_list = require('./naruto_mangas.json');
 const schedule = require('node-schedule');
-
+const { getChapterTitle, getFile } = require('./helpers');
+const { getCurrentDolar } = require('./dolar');
 const MyTwit = require('./twit');
-const Dolar = require('./dolar');
-
 const T = new MyTwit();
 
 postTweet = async () => {
 
-  const { value, value_formatted, higher } = await (new Dolar()).getCurrentDolar();
+  const { value, value_formatted, higher } = await getCurrentDolar();
 
   const b64_content = getFile(value_formatted);
 
@@ -44,37 +41,22 @@ Capítulo ${value_formatted}: ${getChapterTitle(value_formatted)}
   }
 }
 
-getFile = (value_formatted) => {
-  return fs.readFileSync(`./covers/${value_formatted}.${getFileExtension(value_formatted)}`, { encoding: 'base64' });
-}
-
-getChapterTitle = (chapter) => {
-  return chapters_name_list.find(x => x.chapter === chapter).text;
-}
-
-getFileExtension = (entry) => {
-  const files = fs.readdirSync('./covers');
-  const filename = files.find((file) => {
-    return file.includes(entry);
-  });
-
-  const extension = filename.split(".").pop();
-
-  return extension;
-}
-
-if(process.argv[2] === 'h') {
-  schedule.scheduleJob('0 9-17 * * 1-5', async () => {
-    await postTweet();
-  });
-}
-
-if(process.argv[2] === 'n') {
-  (async () => {
-    try {
+main = () => {
+  if(process.argv.find(x => x === 'h')) {
+    schedule.scheduleJob('0 9-17 * * 1-5', async () => {
       await postTweet();
-    } catch (err) {
-      console.log(err);
-    }
-  })();
+    });
+  }
+  
+  if(process.argv.find(x => x === 'n')) {
+    (async () => {
+      try {
+        await postTweet();
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }
 }
+
+main();

@@ -3,7 +3,7 @@ const config = require('./config');
 
 class Twit {
 
-  constructor(twit) {
+  constructor() {
     this.T = new TwitLibrary(config);
   }
 
