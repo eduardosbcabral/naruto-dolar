@@ -10,6 +10,8 @@ postTweet = async () => {
 
   const { value, value_formatted, status } = await getCurrentDolar();
 
+  console.log(status);
+
   const b64_content = getFile(value_formatted);
 
   try {
@@ -33,6 +35,8 @@ O dólar ${getDolarStatusMessage(status)} e está cotado a R$${value}!!! ${getDo
           
 Capítulo ${value_formatted}: ${getChapterTitle(value_formatted)}
 `;
+
+console.log(message);
 
     await T.postTweet(message, media_id_string);
 
@@ -63,7 +67,7 @@ getDolarStatusEmoji = (status) => {
   }
 
   if(status === dolar_status.lower.value) {
-    return '😀';
+    return '🙂';
   }
 
   if(status === dolar_status.same.value) {
