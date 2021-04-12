@@ -2,15 +2,13 @@ const path = require('path');
 global.appRoot = path.resolve(__dirname);
 const schedule = require('node-schedule');
 const { getChapterTitle, getFile } = require('./helpers');
-const { getCurrentDolar, dolar_status } = require('./dolar');
+const { getCurrentDolar, dolar_status, saveCurrentDolar } = require('./dolar');
 const MyTwit = require('./twit');
 const T = new MyTwit();
 
 postTweet = async () => {
 
-  const { value, value_formatted, status } = await getCurrentDolar();
-
-  console.log(status);
+  const { value, value_formatted, status, default_value } = await getCurrentDolar();
 
   const b64_content = getFile(value_formatted);
 
@@ -21,12 +19,12 @@ postTweet = async () => {
 
     const altText = `Capa do capítulo ${value_formatted} de Naruto.`;
 
-    const media_id_string = data.media_id_string;
+     const media_id_string = data.media_id_string;
 
-    const meta_params = { 
-      media_id: media_id_string, 
-      alt_text: { text: altText } 
-    };
+     const meta_params = { 
+       media_id: media_id_string, 
+       alt_text: { text: altText } 
+     };
 
     await T.createMediaMetadata(meta_params);
 
@@ -36,9 +34,9 @@ O dólar ${getDolarStatusMessage(status)} e está cotado a R$${value}!!! ${getDo
 Capítulo ${value_formatted}: ${getChapterTitle(value_formatted)}
 `;
 
-console.log(message);
-
     await T.postTweet(message, media_id_string);
+
+    saveCurrentDolar({ bid: default_value });
 
     console.log('Tweet posted!');
 

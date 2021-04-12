@@ -7,8 +7,6 @@ getCurrentDolar = async () => {
   const response = await fetch(endpoint);
   let json = await response.json();
 
-  saveCurrentDolar(json.USD);
-
   let json_formatted = formatReturnedObject(json.USD);
   json_formatted.status = getDolarStatus(json.USD);
   return json_formatted;
@@ -27,7 +25,8 @@ formatReturnedObject = (json_object) => {
 
   return {
     value: value_to_BRL,
-    value_formatted: value_without_dot
+    value_formatted: value_without_dot,
+    default_value: bid
   };
 }
 
@@ -52,6 +51,7 @@ getDolarStatus = (currentDolar) => {
 }
 
 saveCurrentDolar = (dolar) => {
+  console.log('Salvando: ', dolar); 
   fs.writeFileSync(global.appRoot + "/current_dolar.json", JSON.stringify(dolar));
 }
 
@@ -69,5 +69,6 @@ const dolar_status = {
 
 module.exports = {
   getCurrentDolar,
-  dolar_status
+  dolar_status,
+  saveCurrentDolar
 };
