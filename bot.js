@@ -77,7 +77,7 @@ main = () => {
   console.log('Bot is running!');
 
   if(process.argv.find(x => x === 'default')) {
-    schedule.scheduleJob('0 9-17 * * 1-5', async () => {
+    schedule.scheduleJob('0 9-17/2 * * 1-5', async () => {
       await postTweet();
     });
   }
