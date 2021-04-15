@@ -8,19 +8,27 @@ getCurrentDolar = async () => {
   let json = await response.json();
 
   let json_formatted = formatReturnedObject(json.USD);
-  json_formatted.status = getDolarStatus(json.USD);
+
+  let last_dolar = getSavedDolar();
+
+  json_formatted.status = getDolarStatus(json.USD.bid, last_dolar.bid);
+
+  json_formatted.percentual_difference = percentualDifference(json.USD.bid, last_dolar.bid);
+
   return json_formatted;
 }
 
 formatReturnedObject = (json_object) => {
   const { bid } = json_object;
 
+  const toRemoveAfterDot = howManyToRemoveAfterDot(bid);
+
   const value_to_BRL = bid
-    .substring(0, json_object.bid.length - 2)
+    .substring(0, json_object.bid.length - toRemoveAfterDot)
     .replace('.', ',');
 
   const value_without_dot = bid
-    .substring(0, bid.length - 2)
+    .substring(0, bid.length - toRemoveAfterDot)
     .replace('.', '');
 
   return {
@@ -30,12 +38,26 @@ formatReturnedObject = (json_object) => {
   };
 }
 
-getDolarStatus = (currentDolar) => {
-  
-  let savedDolar = getSavedDolar();
+percentualDifference = (last, current) => {
 
-  const savedDolarBid = Math.floor(parseFloat(savedDolar.bid) * 100) / 100;
-  const currentDolarBid = Math.floor(parseFloat(currentDolar.bid) * 100) / 100;
+  const biggest_value = Math.max(parseFloat(last), parseFloat(current));
+  const lowest_value = Math.min(parseFloat(last), parseFloat(current));
+  
+  const percentual_difference = (((biggest_value - lowest_value) / lowest_value) * 100);
+  
+  const signal = last == biggest_value ? '-' : '+';
+  return signal + percentual_difference.toFixed(2) + '%';
+}
+
+howManyToRemoveAfterDot = value => {
+  const afterDot = value.split('.')[1].length;
+  return afterDot - 2;
+} 
+
+getDolarStatus = (currentDolar, lastDolar) => {
+
+  const savedDolarBid = Math.floor(parseFloat(lastDolar) * 100) / 100;
+  const currentDolarBid = Math.floor(parseFloat(currentDolar) * 100) / 100;
 
   if(currentDolarBid > savedDolarBid) {
     return dolar_status.higher.value;
