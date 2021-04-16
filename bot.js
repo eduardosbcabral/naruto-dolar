@@ -49,7 +49,7 @@ Variação: ${getDolarPercentualMessage(status, percentual_difference)}
 
 getCurrentDate = () => {
   var date = new Date();
-  return `${date.getHours()}:${date.getMinutes()}`;
+  return `${date.getHours()}:${(date.getMinutes()<10?'0':'') + date.getMinutes()}`;
 }
 
 getDolarStatusMessage = (status) => {
