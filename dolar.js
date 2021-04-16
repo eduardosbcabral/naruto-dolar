@@ -15,7 +15,6 @@ getCurrentDolar = async () => {
 
   json_formatted.percentual_difference = percentualDifference(json.USD.bid, last_dolar.bid);
 
-  console.log(json_formatted);
   return json_formatted;
 }
 
@@ -45,8 +44,7 @@ percentualDifference = (last, current) => {
   
   const percentual_difference = (((biggest_value - lowest_value) / lowest_value) * 100);
 
-  const signal = last >= biggest_value ? '-' : '+';
-  return signal + percentual_difference.toFixed(2) + '%';
+  return percentual_difference.toFixed(2);
 }
 
 howManyToRemoveAfterDot = value => {
