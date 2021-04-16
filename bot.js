@@ -36,10 +36,9 @@ Capítulo ${value_formatted}: ${getChapterTitle(value_formatted)}
 Variação: ${getDolarPercentualMessage(status, percentual_difference)}
 `;
 
-console.log(message);
-    //await T.postTweet(message, media_id_string);
+    await T.postTweet(message, media_id_string);
 
-    //saveCurrentDolar({ bid: default_value });
+    saveCurrentDolar({ bid: default_value });
 
     console.log('Tweet posted!');
 
